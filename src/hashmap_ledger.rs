@@ -3,6 +3,8 @@ use std::collections::{
     HashMap,
 };
 
+use rust_decimal::Decimal;
+
 use crate::ledger::{
     Account, DisputeStatus, DisputeTransaction, DisputeTransactionType, Ledger,
     StandardTransaction, StandardTransactionType, Transaction,
@@ -24,6 +26,10 @@ impl HashMapLedger {
     }
 
     fn handle_standard(&mut self, transaction: StandardTransaction) -> Result<(), String> {
+        if transaction.amount <= Decimal::ZERO {
+            return Err("Amount cannot be negative".into());
+        }
+
         let account = self
             .accounts_by_client_id
             .entry(transaction.client_id)

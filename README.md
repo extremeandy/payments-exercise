@@ -13,6 +13,7 @@ The specification does not completely describe the intended behaviour of the pro
 3. A transaction cannot have more than one open dispute at a time.
 4. A transaction can be disputed more than once so long as any previous disputes have already been resolved.
 5. When an account is locked, deposits/withdrawals are not allowed, but disputes can still be procesed.
+6. Deposit/withdrawal amounts must be greater than zero; any transactions with negative amounts will be ignored.
 
 [^1]: An example of a disputable deposit might be a client using a stolen credit card to deposit funds into their account. The dispute would presumably be raised by the credit card company to recover the funds. However, the spec says a dispute represents a _client's_ claim that a transaction was erroneous, so this assumption doesn't quite fit with that, but I can't think of any other way to reconcile the requirements.
 

@@ -104,6 +104,28 @@ withdrawal, 2, 5, 3.0";
 }
 
 #[test]
+fn negative_deposit() -> Result<(), Box<dyn std::error::Error>> {
+    let csv_content = "type, client, tx, amount
+deposit, 1, 1, 1.5
+deposit, 1, 2, -2.0";
+
+    let expected_rows = &mut ["1,1.5,0,1.5,false"];
+
+    assert_cmd_succeeds_with_result(csv_content, expected_rows)
+}
+
+#[test]
+fn negative_withdrawal() -> Result<(), Box<dyn std::error::Error>> {
+    let csv_content = "type, client, tx, amount
+deposit, 1, 1, 1.5
+withdrawal, 1, 2, -2.0";
+
+    let expected_rows = &mut ["1,1.5,0,1.5,false"];
+
+    assert_cmd_succeeds_with_result(csv_content, expected_rows)
+}
+
+#[test]
 fn dispute() -> Result<(), Box<dyn std::error::Error>> {
     let csv_content = "type, client, tx, amount
 deposit, 1, 1, 1.0
