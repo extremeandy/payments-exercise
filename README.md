@@ -36,4 +36,5 @@ It is possible to test all edge cases via the command line, so I have opted to o
 - Support multiple ongoing unresolved disputes against a single transaction (would require additional field in the transaction CSV to uniquely identify a dispute)
 - Refactor the `Ledger` trait so that most of the core business logic is shared (doesn't live in `HashMapLedger`) and implementation-agnostic (i.e. can be re-used whether storage layer for the ledger is in-memory or otherwise)
 - Use a more descriptive type than `String` for errors returned by `handle_transaction` on `Ledger`. This would allow us to swallow (ignore) some kinds of errors and continue, and panic on others.
+- Expanded test coverage
 - Performance testing for large result sets to ensure memory usage doesn't blow up
