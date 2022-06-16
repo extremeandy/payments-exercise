@@ -1,5 +1,6 @@
-use std::{env, error::Error, io};
+use std::{error::Error, io};
 
+use clap::Parser;
 use ledger::Ledger;
 
 mod csv_accounts;
@@ -7,13 +8,17 @@ mod csv_transactions;
 mod hashmap_ledger;
 mod ledger;
 
-fn main() -> Result<(), Box<dyn Error>> {
-    let args: Vec<String> = env::args().collect();
-    let transactions_csv_path = args
-        .get(1)
-        .ok_or("You must provide a file path as the first and only argument")?;
+#[derive(Parser, Default, Debug)]
+#[clap(author = "Andrew Harward", about = "Example payments engine")]
+struct Args {
+    #[clap(forbid_empty_values = true, help = "Path to transactions CSV file")]
+    transactions_csv_path: String,
+}
 
-    let mut transactions_reader = csv_transactions::Reader::from_path(transactions_csv_path)?;
+fn main() -> Result<(), Box<dyn Error>> {
+    let args = Args::parse();
+
+    let mut transactions_reader = csv_transactions::Reader::from_path(args.transactions_csv_path)?;
 
     let mut ledger = hashmap_ledger::HashMapLedger::new();
 
