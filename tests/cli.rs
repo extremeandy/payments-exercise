@@ -6,6 +6,17 @@ use std::process::Command;
 const BIN_NAME: &str = "payments-engine";
 
 #[test]
+fn command_fails_when_path_not_provided() -> Result<(), Box<dyn std::error::Error>> {
+    let mut cmd = Command::cargo_bin(BIN_NAME)?;
+
+    cmd.assert().failure().stderr(predicate::str::contains(
+        "The following required arguments were not provided:",
+    ));
+
+    Ok(())
+}
+
+#[test]
 fn command_fails_when_file_doesnt_exist() -> Result<(), Box<dyn std::error::Error>> {
     let mut cmd = Command::cargo_bin(BIN_NAME)?;
 
